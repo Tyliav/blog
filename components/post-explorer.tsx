@@ -43,7 +43,7 @@ export function PostExplorer({
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="搜索标题、摘要或标签…"
-            className="w-full rounded-xl border border-line bg-surface py-3 pr-10 pl-10 text-sm outline-none transition-colors placeholder:text-muted focus:border-brand"
+            className="w-full rounded-xl border border-line bg-surface py-3 pr-10 pl-10 text-sm shadow-soft outline-none transition-all placeholder:text-muted focus:border-brand focus:shadow-lift"
           />
           {query && (
             <button
@@ -63,7 +63,7 @@ export function PostExplorer({
             onClick={() => setActiveTag(null)}
             className={`rounded-lg border px-3 py-1.5 text-xs transition-colors ${
               activeTag === null
-                ? "border-brand bg-brand-soft font-medium text-brand"
+                ? "border-brand-line bg-brand-soft font-medium text-brand"
                 : "border-line bg-surface text-muted hover:text-ink"
             }`}
           >
@@ -80,7 +80,7 @@ export function PostExplorer({
               }
               className={`rounded-lg border px-3 py-1.5 text-xs transition-colors ${
                 activeTag === tag.name
-                  ? "border-brand bg-brand-soft font-medium text-brand"
+                  ? "border-brand-line bg-brand-soft font-medium text-brand"
                   : "border-line bg-surface text-muted hover:text-ink"
               }`}
             >

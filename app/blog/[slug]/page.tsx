@@ -60,7 +60,7 @@ export default async function ArticlePage({
       </Link>
 
       <div className="mt-8 grid gap-12 lg:grid-cols-[minmax(0,1fr)_15rem]">
-        <article className="min-w-0">
+        <article className="min-w-0 rounded-2xl border border-line bg-surface p-6 shadow-soft sm:p-10">
           <header className="animate-rise">
             <div className="flex flex-wrap items-center gap-2 text-xs text-muted">
               <Link
@@ -92,7 +92,7 @@ export default async function ArticlePage({
                   <Link
                     key={tag}
                     href={`/tags/${encodeURIComponent(tag)}`}
-                    className="rounded-md border border-line bg-surface px-2.5 py-1 text-xs text-muted transition-colors hover:border-brand/40 hover:text-brand"
+                    className="rounded-md border border-line bg-surface-2 px-2.5 py-1 text-xs text-muted transition-colors hover:border-brand-line hover:text-brand"
                   >
                     #{tag}
                   </Link>
@@ -114,7 +114,7 @@ export default async function ArticlePage({
             {older ? (
               <Link
                 href={`/blog/${older.slug}`}
-                className="group rounded-xl border border-line bg-surface p-4 transition-colors hover:border-brand/40"
+                className="group rounded-xl border border-line bg-canvas p-4 transition-colors hover:border-brand-line"
               >
                 <span className="inline-flex items-center gap-1 text-xs text-muted">
                   <ArrowLeft className="size-3.5" />
@@ -131,7 +131,7 @@ export default async function ArticlePage({
             {newer && (
               <Link
                 href={`/blog/${newer.slug}`}
-                className="group rounded-xl border border-line bg-surface p-4 text-right transition-colors hover:border-brand/40"
+                className="group rounded-xl border border-line bg-canvas p-4 text-right transition-colors hover:border-brand-line"
               >
                 <span className="inline-flex items-center gap-1 text-xs text-muted">
                   下一篇
@@ -146,7 +146,7 @@ export default async function ArticlePage({
         </article>
 
         <aside className="hidden lg:block">
-          <div className="sticky top-24">
+          <div className="sticky top-24 rounded-2xl border border-line bg-surface p-5 shadow-soft">
             <Toc items={toc} />
           </div>
         </aside>

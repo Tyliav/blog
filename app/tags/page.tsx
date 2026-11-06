@@ -25,7 +25,7 @@ export default function TagsPage() {
           <Link
             key={tag.name}
             href={`/tags/${encodeURIComponent(tag.name)}`}
-            className="group inline-flex items-center gap-2 rounded-xl border border-line bg-surface px-4 py-2.5 transition-all hover:-translate-y-0.5 hover:border-brand/40 hover:shadow-md hover:shadow-black/5"
+            className="group inline-flex items-center gap-2 rounded-xl border border-line bg-surface px-4 py-2.5 shadow-soft transition-all hover:-translate-y-0.5 hover:border-brand-line hover:text-brand hover:shadow-lift"
           >
             <Hash className="size-3.5 text-brand" />
             <span className="text-sm font-medium">{tag.name}</span>

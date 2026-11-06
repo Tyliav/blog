@@ -5,7 +5,7 @@ import { formatDate } from "@/lib/utils";
 
 export function PostCard({ post }: { post: PostMeta }) {
   return (
-    <article className="group relative rounded-2xl border border-line bg-surface p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-brand/40 hover:shadow-lg hover:shadow-black/5">
+    <article className="group relative rounded-2xl border border-line bg-surface p-5 shadow-soft transition-all duration-200 hover:-translate-y-1 hover:border-brand-line hover:shadow-lift">
       <div className="flex flex-wrap items-center gap-2 text-xs text-muted">
         <span className="rounded-md bg-brand-soft px-2 py-0.5 font-medium text-brand">
           {post.category}
@@ -28,7 +28,7 @@ export function PostCard({ post }: { post: PostMeta }) {
           {post.tags.map((tag) => (
             <span
               key={tag}
-              className="rounded-md border border-line bg-canvas px-2 py-0.5 text-[0.7rem] text-muted"
+              className="rounded-md border border-line bg-surface-2 px-2 py-0.5 text-[0.7rem] text-muted"
             >
               #{tag}
             </span>

@@ -18,13 +18,13 @@ export function SiteHeader() {
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line/80 bg-canvas/80 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-line/70 bg-chrome backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-6xl items-center gap-3 px-5">
         <Link
           href="/"
           className="group flex items-center gap-2.5 font-semibold tracking-tight"
         >
-          <span className="grid size-8 place-items-center rounded-lg bg-brand text-sm font-bold text-white shadow-sm transition-transform group-hover:scale-105">
+          <span className="grid size-8 place-items-center rounded-xl bg-gradient-to-br from-brand to-accent text-sm font-bold text-white shadow-md shadow-brand/25 transition-transform group-hover:scale-105">
             C
           </span>
           <span className="hidden sm:inline">{site.name}</span>
@@ -51,7 +51,7 @@ export function SiteHeader() {
           <button
             type="button"
             onClick={() => window.dispatchEvent(new CustomEvent("blog:open-chat"))}
-            className="hidden items-center gap-1.5 rounded-lg border border-line bg-surface px-3 py-2 text-sm text-ink transition-colors hover:bg-surface-2 sm:flex"
+            className="hidden items-center gap-1.5 rounded-full border border-line bg-surface px-3.5 py-2 text-sm text-ink transition-all hover:border-brand-line hover:text-brand sm:flex"
           >
             <MessageSquare className="size-4 text-brand" />
             AI 助手
@@ -63,7 +63,7 @@ export function SiteHeader() {
             type="button"
             aria-label="打开菜单"
             onClick={() => setOpen((value) => !value)}
-            className="grid size-9 place-items-center rounded-lg border border-line bg-surface text-muted transition-colors hover:bg-surface-2 md:hidden"
+            className="grid size-9 place-items-center rounded-full border border-line bg-surface text-muted transition-colors hover:bg-surface-2 md:hidden"
           >
             {open ? <X className="size-4" /> : <Menu className="size-4" />}
           </button>
@@ -71,7 +71,7 @@ export function SiteHeader() {
       </div>
 
       {open && (
-        <nav className="border-t border-line bg-canvas px-5 py-3 md:hidden">
+        <nav className="border-t border-line bg-chrome px-5 py-3 md:hidden">
           <ul className="flex flex-col gap-1">
             {site.nav.map((item) => (
               <li key={item.href}>

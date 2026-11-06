@@ -29,19 +29,20 @@ export default function HomePage() {
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-line py-16 sm:py-24">
         <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-          <div className="animate-float-slow absolute -top-32 -left-24 size-80 rounded-full bg-brand/20 blur-3xl" />
-          <div className="absolute top-20 -right-24 size-72 rounded-full bg-sky-400/15 blur-3xl" />
+          <div className="dot-grid absolute inset-0" />
+          <div className="animate-float-slow absolute -top-32 -left-24 size-80 rounded-full bg-brand/25 blur-3xl dark:bg-brand/15" />
+          <div className="absolute top-20 -right-24 size-72 rounded-full bg-accent/20 blur-3xl dark:bg-accent/15" />
         </div>
 
         <div className="animate-rise max-w-3xl">
-          <span className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3.5 py-1.5 text-xs text-muted">
+          <span className="inline-flex items-center gap-2 rounded-full border border-brand-line bg-surface/80 px-3.5 py-1.5 text-xs text-muted backdrop-blur">
             <BookOpen className="size-3.5 text-brand" />
             非全日制硕士 · AI 系统 / Serverless / 性能工程方向
           </span>
 
-          <h1 className="mt-6 text-4xl leading-[1.15] font-bold tracking-tight sm:text-5xl">
+          <h1 className="mt-6 text-4xl leading-[1.15] font-bold tracking-tight text-ink sm:text-5xl">
             把学过的
-            <span className="bg-gradient-to-r from-brand to-sky-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-brand to-accent bg-clip-text text-transparent">
               变成讲得清的
             </span>
             笔记
@@ -55,18 +56,18 @@ export default function HomePage() {
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <Link
               href="/blog"
-              className="inline-flex items-center gap-2 rounded-xl bg-brand px-5 py-3 text-sm font-medium text-white shadow-lg shadow-brand/20 transition-all hover:-translate-y-0.5 hover:opacity-90"
+              className="inline-flex items-center gap-2 rounded-xl bg-brand px-5 py-3 text-sm font-medium text-white shadow-lg shadow-brand/25 transition-all hover:-translate-y-0.5 hover:bg-brand/90"
             >
               开始阅读
               <ArrowRight className="size-4" />
             </Link>
             <Link
               href="/about"
-              className="inline-flex items-center gap-2 rounded-xl border border-line bg-surface px-5 py-3 text-sm font-medium transition-all hover:-translate-y-0.5 hover:border-brand/40"
+              className="inline-flex items-center gap-2 rounded-xl border border-line bg-surface px-5 py-3 text-sm font-medium shadow-soft transition-all hover:-translate-y-0.5 hover:border-brand-line hover:text-brand"
             >
               关于我
             </Link>
-            <OpenChatButton className="inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-medium text-muted transition-colors hover:text-brand">
+            <OpenChatButton className="inline-flex items-center gap-2 rounded-xl border border-transparent px-5 py-3 text-sm font-medium text-muted transition-colors hover:text-brand">
               <Sparkles className="size-4" />
               和 AI 助手聊聊
             </OpenChatButton>
@@ -118,14 +119,16 @@ export default function HomePage() {
               <Link
                 key={track.title}
                 href={track.href}
-                className="group relative overflow-hidden rounded-2xl border border-line bg-surface p-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-brand/40 hover:shadow-lg hover:shadow-black/5"
+                className="group relative overflow-hidden rounded-2xl border border-line bg-surface p-6 shadow-soft transition-all duration-200 hover:-translate-y-1 hover:border-brand-line hover:shadow-lift"
               >
                 <div
                   aria-hidden
-                  className={`absolute inset-0 bg-gradient-to-br ${track.accent} opacity-0 transition-opacity group-hover:opacity-100`}
+                  className={`absolute inset-0 bg-gradient-to-br ${track.accent} opacity-60 transition-opacity group-hover:opacity-100`}
                 />
                 <div className="relative">
-                  <span className="grid size-10 place-items-center rounded-xl bg-brand-soft text-brand">
+                  <span
+                    className={`grid size-10 place-items-center rounded-xl ${track.chip}`}
+                  >
                     <Icon className="size-5" />
                   </span>
                   <h3 className="mt-4 font-semibold tracking-tight">
@@ -171,7 +174,7 @@ export default function HomePage() {
               <Link
                 key={post.slug}
                 href={`/blog/${post.slug}`}
-                className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-line bg-gradient-to-br from-brand/10 via-surface to-surface p-7 transition-all duration-200 hover:-translate-y-0.5 hover:border-brand/40 hover:shadow-xl hover:shadow-black/5"
+                className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-line bg-gradient-to-br from-brand/12 via-surface to-accent/8 p-7 shadow-soft transition-all duration-200 hover:-translate-y-1 hover:border-brand-line hover:shadow-lift"
               >
                 <div>
                   <span className="inline-flex rounded-md bg-brand px-2 py-0.5 text-[0.7rem] font-medium text-white">

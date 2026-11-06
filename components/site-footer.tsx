@@ -7,12 +7,12 @@ export function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="mt-24 border-t border-line">
+    <footer className="mt-24 border-t border-line bg-surface">
       <div className="mx-auto max-w-6xl px-5 py-10">
         <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
           <div className="max-w-sm">
             <div className="flex items-center gap-2.5 font-semibold">
-              <span className="grid size-8 place-items-center rounded-lg bg-brand text-sm font-bold text-white">
+              <span className="grid size-8 place-items-center rounded-xl bg-gradient-to-br from-brand to-accent text-sm font-bold text-white shadow-md shadow-brand/20">
                 C
               </span>
               {site.name}

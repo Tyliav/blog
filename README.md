@@ -22,7 +22,36 @@
 - 自动生成目录、阅读时长、代码块一键复制
 - RSS、sitemap、robots 自动生成
 - 站内 AI 助手：基于文章索引回答问题、推荐阅读顺序
-- 深色模式、响应式布局
+- 浅色 / 深色双主题（默认浅色）、响应式布局
+
+## 域名与上线
+
+线上现在使用 Vercel 分配的默认域名（`*.vercel.app`），可以继续使用，无需购买域名。
+如果想用自己的域名，可以按下面四步绑定：
+
+### 1. 买域名
+
+可选 Cloudflare Registrar、Namecheap、阿里云等注册商，购买前同时比较首年与续费价格。
+购买域名或更换 DNS 并不保证国内访问速度；ICP备案通常取决于是否使用中国内地服务器，
+域名实名要求则以注册商和后缀规则为准。
+
+### 2. 在 Vercel 添加域名
+
+Vercel 控制台 → 该项目 → **Settings → Domains** → 输入域名（例如 `tyliav.com`）→ Add。
+按 Vercel 当前页面提示配置 DNS，裸域名通常使用 `A` 记录，`www` 通常使用 `CNAME`。
+记录值以项目控制台显示为准。
+
+### 3. 在域名服务商配 DNS
+
+把上一步的记录抄到域名的 DNS 控制台即可。然后在 Vercel 的 Domains 页面等它变成
+有效状态，验证通过后会自动配置 HTTPS 证书。DNS 生效时间因服务商与缓存而异。
+
+### 4. 改站点地址并重新部署
+
+Vercel → Settings → Environment Variables，把 `NEXT_PUBLIC_SITE_URL` 改成
+`https://你的域名`，然后 **Redeploy**。这个变量用于 sitemap、RSS 和 Open Graph 等元数据中的站点地址。
+
+> 提示：Vercel 默认已开启 HTTPS 强制跳转，`www` 与裸域名互跳也在 Domains 页面一键设置。
 
 ## 日常流程：写一篇笔记并发到线上
 

@@ -23,6 +23,7 @@ export const site = {
       desc: "Transformer、RAG、推理优化、Agent 与模型服务的工程实现。",
       href: "/tags/大模型",
       accent: "from-violet-500/15 to-violet-500/0",
+      chip: "bg-violet-500/12 text-violet-600 dark:text-violet-300",
     },
     {
       icon: "Server",
@@ -30,6 +31,7 @@ export const site = {
       desc: "函数计算、容器编排、Serverless 架构的成本与性能权衡。",
       href: "/tags/Serverless",
       accent: "from-sky-500/15 to-sky-500/0",
+      chip: "bg-sky-500/12 text-sky-600 dark:text-sky-300",
     },
     {
       icon: "Gauge",
@@ -37,6 +39,7 @@ export const site = {
       desc: "系统级性能剖析、基准测试方法与可观测性实践。",
       href: "/tags/性能工程",
       accent: "from-amber-500/15 to-amber-500/0",
+      chip: "bg-amber-500/15 text-amber-600 dark:text-amber-300",
     },
     {
       icon: "Code",
@@ -44,6 +47,7 @@ export const site = {
       desc: "TypeScript、Python、前后端协作与日常开发踩坑记录。",
       href: "/tags/工程实践",
       accent: "from-emerald-500/15 to-emerald-500/0",
+      chip: "bg-emerald-500/12 text-emerald-600 dark:text-emerald-300",
     },
   ],
 };

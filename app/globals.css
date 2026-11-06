@@ -3,37 +3,60 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --canvas: #ffffff;
-  --surface: #f7f8fa;
-  --surface-2: #eef0f4;
-  --line: #e4e7ec;
-  --ink: #0d1117;
-  --muted: #5b6472;
+  --canvas: #f4f6fb;
+  --surface: #ffffff;
+  --surface-2: #eef1f8;
+  --chrome: rgba(255, 255, 255, 0.82);
+  --line: #e4e8f1;
+  --line-strong: #d5dbe8;
+  --ink: #0e1420;
+  --muted: #59637a;
   --brand: #4f46e5;
-  --brand-soft: rgba(79, 70, 229, 0.08);
+  --brand-soft: rgba(79, 70, 229, 0.09);
+  --brand-line: rgba(79, 70, 229, 0.28);
+  --accent: #0ea5e9;
+  --accent-soft: rgba(14, 165, 233, 0.1);
+  --elevation-soft: 0 1px 2px rgba(15, 23, 42, 0.04),
+    0 8px 24px -12px rgba(15, 23, 42, 0.12);
+  --elevation-lift: 0 12px 32px -12px rgba(79, 70, 229, 0.28);
   --radius: 0.9rem;
 }
 
 .dark {
-  --canvas: #090c12;
-  --surface: #11151d;
-  --surface-2: #171c26;
-  --line: #232a36;
-  --ink: #e8ecf3;
-  --muted: #98a2b3;
+  --canvas: #0d1118;
+  --surface: #161c28;
+  --surface-2: #1d2432;
+  --chrome: rgba(13, 17, 24, 0.82);
+  --line: #232c3a;
+  --line-strong: #2f3949;
+  --ink: #e9edf6;
+  --muted: #9aa6ba;
   --brand: #8b83ff;
-  --brand-soft: rgba(139, 131, 255, 0.12);
+  --brand-soft: rgba(139, 131, 255, 0.14);
+  --brand-line: rgba(139, 131, 255, 0.34);
+  --accent: #38bdf8;
+  --accent-soft: rgba(56, 189, 248, 0.14);
+  --elevation-soft: 0 1px 2px rgba(0, 0, 0, 0.3),
+    0 8px 24px -12px rgba(0, 0, 0, 0.5);
+  --elevation-lift: 0 12px 32px -12px rgba(139, 131, 255, 0.35);
 }
 
 @theme inline {
   --color-canvas: var(--canvas);
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
+  --color-chrome: var(--chrome);
   --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
   --color-ink: var(--ink);
   --color-muted: var(--muted);
   --color-brand: var(--brand);
   --color-brand-soft: var(--brand-soft);
+  --color-brand-line: var(--brand-line);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --shadow-soft: var(--elevation-soft);
+  --shadow-lift: var(--elevation-lift);
 
   --font-sans:
     ui-sans-serif, -apple-system, "SF Pro SC", "PingFang SC", "Hiragino Sans GB",
@@ -58,6 +81,28 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 22rem;
+  pointer-events: none;
+  z-index: -1;
+  background: radial-gradient(
+    60rem 22rem at 50% -8rem,
+    color-mix(in srgb, var(--brand) 10%, transparent),
+    transparent 70%
+  );
+}
+
+.dark body::before {
+  background: radial-gradient(
+    60rem 22rem at 50% -8rem,
+    color-mix(in srgb, var(--brand) 16%, transparent),
+    transparent 70%
+  );
 }
 
 ::selection {
@@ -88,6 +133,16 @@ body {
   border-color: var(--line);
   background-color: var(--surface);
   border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+}
+
+@utility dot-grid {
+  background-image: radial-gradient(
+    color-mix(in srgb, var(--ink) 12%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 22px 22px;
+  mask-image: radial-gradient(70% 60% at 50% 30%, #000 30%, transparent 78%);
 }
 
 /* ── 正文排版 ─────────────────────────────────────────── */

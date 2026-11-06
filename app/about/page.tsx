@@ -57,7 +57,7 @@ export default function AboutPage() {
           {site.tracks.map((track) => (
             <div
               key={track.title}
-              className="rounded-xl border border-line bg-surface p-4"
+              className="rounded-xl border border-line bg-surface p-4 shadow-soft"
             >
               <p className="text-sm font-medium">{track.title}</p>
               <p className="mt-1.5 text-sm leading-relaxed text-muted">
@@ -97,7 +97,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="mt-12 rounded-2xl border border-line bg-surface p-6">
+      <section className="mt-12 rounded-2xl border border-line bg-gradient-to-br from-brand/8 via-surface to-accent/8 p-6 shadow-soft">
         <h2 className="flex items-center gap-2 text-lg font-semibold tracking-tight">
           <Sparkles className="size-5 text-brand" />
           联系方式
