@@ -8,18 +8,21 @@ import type { PostMeta } from "@/lib/posts";
 export function PostExplorer({
   posts,
   tags,
+  categories,
 }: {
   posts: PostMeta[];
   tags: { name: string; count: number }[];
+  categories: { name: string; count: number }[];
 }) {
   const [query, setQuery] = useState("");
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [activeTag, setActiveTag] = useState<string | null>(null);
 
   const filtered = useMemo(() => {
     const keyword = query.trim().toLowerCase();
     return posts.filter((post) => {
-      const matchTag = !activeTag || post.tags.includes(activeTag);
-      if (!matchTag) return false;
+      if (activeCategory && post.category !== activeCategory) return false;
+      if (activeTag && !post.tags.includes(activeTag)) return false;
       if (!keyword) return true;
       const haystack = [
         post.title,
@@ -31,7 +34,7 @@ export function PostExplorer({
         .toLowerCase();
       return haystack.includes(keyword);
     });
-  }, [posts, query, activeTag]);
+  }, [posts, query, activeCategory, activeTag]);
 
   return (
     <div>
@@ -58,6 +61,40 @@ export function PostExplorer({
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
+          <span className="w-8 shrink-0 text-xs text-muted">分类</span>
+          <button
+            type="button"
+            onClick={() => setActiveCategory(null)}
+            className={`rounded-lg border px-3 py-1.5 text-xs transition-colors ${
+              activeCategory === null
+                ? "border-brand-line bg-brand-soft font-medium text-brand"
+                : "border-line bg-surface text-muted hover:text-ink"
+            }`}
+          >
+            全部 · {posts.length}
+          </button>
+          {categories.map((category) => (
+            <button
+              key={category.name}
+              type="button"
+              onClick={() =>
+                setActiveCategory((current) =>
+                  current === category.name ? null : category.name,
+                )
+              }
+              className={`rounded-lg border px-3 py-1.5 text-xs transition-colors ${
+                activeCategory === category.name
+                  ? "border-brand-line bg-brand-soft font-medium text-brand"
+                  : "border-line bg-surface text-muted hover:text-ink"
+              }`}
+            >
+              {category.name} · {category.count}
+            </button>
+          ))}
+        </div>
+
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="w-8 shrink-0 text-xs text-muted">标签</span>
           <button
             type="button"
             onClick={() => setActiveTag(null)}
@@ -67,7 +104,7 @@ export function PostExplorer({
                 : "border-line bg-surface text-muted hover:text-ink"
             }`}
           >
-            全部 · {posts.length}
+            全部
           </button>
           {tags.map((tag) => (
             <button
@@ -92,6 +129,12 @@ export function PostExplorer({
 
       <p className="mt-8 mb-4 text-sm text-muted">
         共 <span className="font-medium text-ink">{filtered.length}</span> 篇文章
+        {activeCategory && (
+          <>
+            ，分类{" "}
+            <span className="font-medium text-brand">{activeCategory}</span>
+          </>
+        )}
         {activeTag && (
           <>
             ，标签 <span className="font-medium text-brand">#{activeTag}</span>

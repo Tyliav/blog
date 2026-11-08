@@ -1,16 +1,18 @@
 import type { MetadataRoute } from "next";
-import { getAllPosts, getAllTags } from "@/lib/posts";
+import { getAllPosts, getAllTags, getCategories } from "@/lib/posts";
 import { site } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = site.url.replace(/\/+$/, "");
 
-  const staticRoutes = ["", "/blog", "/tags", "/about"].map((path) => ({
-    url: `${base}${path}`,
-    lastModified: new Date(),
-    changeFrequency: "weekly" as const,
-    priority: path === "" ? 1 : 0.7,
-  }));
+  const staticRoutes = ["", "/blog", "/categories", "/tags", "/about"].map(
+    (path) => ({
+      url: `${base}${path}`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: path === "" ? 1 : 0.7,
+    }),
+  );
 
   const postRoutes = getAllPosts().map((post) => ({
     url: `${base}/blog/${post.slug}`,
@@ -26,5 +28,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.4,
   }));
 
-  return [...staticRoutes, ...postRoutes, ...tagRoutes];
+  const categoryRoutes = getCategories().map((category) => ({
+    url: `${base}/categories/${encodeURIComponent(category.name)}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.5,
+  }));
+
+  return [...staticRoutes, ...postRoutes, ...categoryRoutes, ...tagRoutes];
 }
