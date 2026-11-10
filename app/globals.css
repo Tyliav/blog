@@ -92,7 +92,7 @@ body::before {
   z-index: -1;
   background: radial-gradient(
     60rem 22rem at 50% -8rem,
-    color-mix(in srgb, var(--brand) 10%, transparent),
+    color-mix(in srgb, var(--brand) 6%, transparent),
     transparent 70%
   );
 }
