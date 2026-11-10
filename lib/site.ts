@@ -4,7 +4,10 @@ export const site = {
   shortTitle: "CyberCheems",
   description:
     "记录机器学习、大模型系统、Serverless 与性能工程的学习笔记与项目实践。写给未来的自己，也写给正在看这篇的人。",
-  url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+  url:
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    // 未配置环境变量时用正式域名，避免 sitemap / RSS 指向 localhost
+    "https://cybercheems.top",
   author: "CyberCheems",
   email: "1939523795@qq.com",
   github: "https://github.com/Tyliav",

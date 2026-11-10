@@ -3,7 +3,7 @@
 个人技术博客，记录数据库系统，大模型系统，Serverless，与性能工程的学习笔记和项目实践。
 写给未来的自己，也写给正在看这篇的人。
 
-- 线上地址：https://blog-olive-theta-81.vercel.app
+- 线上地址：https://cybercheems.top
 - 仓库地址：https://github.com/Tyliav/blog
 
 ## 技术栈
@@ -26,30 +26,26 @@
 
 ## 域名与上线
 
-线上现在使用 Vercel 分配的默认域名（`*.vercel.app`），可以继续使用，无需购买域名。
-如果想用自己的域名，可以按下面四步绑定：
+自有域名 `cybercheems.top`（阿里云万网注册），Vercel 负责托管与证书。
+Vercel 分配的 `*.vercel.app` 地址同时保留，可作为备用入口。
 
-### 1. 买域名
+### 1. 在 Vercel 添加域名
 
-可选 Cloudflare Registrar、Namecheap、阿里云等注册商，购买前同时比较首年与续费价格。
-购买域名或更换 DNS 并不保证国内访问速度；ICP备案通常取决于是否使用中国内地服务器，
-域名实名要求则以注册商和后缀规则为准。
+Vercel 控制台 → 该项目 → **Settings → Domains** → 输入 `cybercheems.top` → Add。
+按 Vercel 页面提示配置 DNS，裸域名通常使用 `A` 记录，`www` 通常使用 `CNAME`，
+记录值以控制台实际显示为准。
 
-### 2. 在 Vercel 添加域名
+### 2. 在阿里云配 DNS
 
-Vercel 控制台 → 该项目 → **Settings → Domains** → 输入域名（例如 `tyliav.com`）→ Add。
-按 Vercel 当前页面提示配置 DNS，裸域名通常使用 `A` 记录，`www` 通常使用 `CNAME`。
-记录值以项目控制台显示为准。
+阿里云控制台 → 云解析 DNS → `cybercheems.top` → 解析设置 → 添加记录，
+把 Vercel 给的记录抄进去。然后在 Vercel 的 Domains 页面等它变成有效状态，
+验证通过后会自动配置 HTTPS 证书。DNS 生效时间因服务商与缓存而异。
 
-### 3. 在域名服务商配 DNS
-
-把上一步的记录抄到域名的 DNS 控制台即可。然后在 Vercel 的 Domains 页面等它变成
-有效状态，验证通过后会自动配置 HTTPS 证书。DNS 生效时间因服务商与缓存而异。
-
-### 4. 改站点地址并重新部署
+### 3. 改站点地址并重新部署
 
 Vercel → Settings → Environment Variables，把 `NEXT_PUBLIC_SITE_URL` 改成
-`https://你的域名`，然后 **Redeploy**。这个变量用于 sitemap、RSS 和 Open Graph 等元数据中的站点地址。
+`https://cybercheems.top`，然后 **Redeploy**。这个变量用于 sitemap、RSS 和 Open Graph
+等元数据中的站点地址。仓库里 `lib/site.ts` 的默认值也已同步，漏配也不会指向 localhost。
 
 > 提示：Vercel 默认已开启 HTTPS 强制跳转，`www` 与裸域名互跳也在 Domains 页面一键设置。
 
