@@ -72,6 +72,8 @@ npm run dev                   # http://localhost:3000，Ctrl+C 停止
 ## 写一篇新文章
 
 在 `content/posts/` 下新建 `<slug>.md`，**文件名即 URL**：`kv-cache.md` → `/blog/kv-cache`。
+最省事的做法是复制 `content/posts/_template.md`，改名后填内容即可；
+模板本身因为标题为空会被自动忽略，不会发布到网站上。
 
 ```yaml
 ---
