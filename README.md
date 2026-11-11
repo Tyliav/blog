@@ -72,13 +72,20 @@ npm run dev                   # http://localhost:3000，Ctrl+C 停止
 ## 写一篇新文章
 
 在 `content/posts/` 下新建 `<slug>.md`，**文件名即 URL**：`kv-cache.md` → `/blog/kv-cache`。
-最省事的做法是复制 `content/posts/_template.md`，改名后填内容即可；
-模板本身因为标题为空会被自动忽略，不会发布到网站上。
+最省事的做法是用脚本新建，它会自动填好标题和今天的日期：
+
+```bash
+npm run new:post kv-cache "KV Cache 原理" "讲清楚前缀缓存怎么工作的"
+```
+
+生成 `content/posts/kv-cache.md`，随后直接写正文即可。
+`content/posts/_template.md` 是一份语法速查表（标题/列表/表格/代码块/图片），
+它本身标题为空，会被自动忽略，不会发布到网站上。
 
 ```yaml
 ---
 title: "标题"
-date: "2026-11-04"
+date: "2026-11-11"
 description: "一句话摘要，会出现在列表和 RSS 里"
 tags: ["大模型", "推理优化"]
 category: "大模型"
