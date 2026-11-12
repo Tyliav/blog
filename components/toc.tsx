@@ -36,7 +36,7 @@ export function Toc({ items }: { items: TocItem[] }) {
       <p className="mb-3 text-xs font-semibold tracking-widest text-muted uppercase">
         本页目录
       </p>
-      <ul className="space-y-1.5 border-l border-line">
+      <ul className="max-h-[calc(100vh-11rem)] space-y-1.5 overflow-y-auto border-l border-line">
         {items.map((item) => (
           <li key={item.id}>
             <a
