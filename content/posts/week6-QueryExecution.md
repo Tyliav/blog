@@ -4,10 +4,9 @@ date: 2026-11-15
 description: BusTub Project 3 查询执行模块复盘：火山模型与批处理执行、扫描/修改/聚合/连接执行器的实现、SeqScan → IndexScan 优化规则，以及索引迭代器自死锁等七个调试问题。
 tags: ["数据库", "BusTub", "C++"]
 category: 数据库
-featured: false
+featured: true
 draft: false
 ---
-
 ## 一、本周任务
 
 本周继续完成 BusTub Project 3 的查询执行模块。目前，Task 1 的执行器与 SeqScan → IndexScan 优化规则已经完成，并通过本地 SQLLogicTest 和线上测试。Task 2 的排序、Limit 和 TopN 已有部分同学完成，尚未统一验收，因此本次汇报主要介绍 Task 1，Task 2 留到下周继续总结。
@@ -45,11 +44,11 @@ BusTub 的执行器以火山模型（Iterator Model）为基础。每个算子�
 
 BusTub 当前的实现更接近"行式批处理"：`Next(tuple_batch, rid_batch, batch_size)` 每次返回一批 Tuple，但批次内部仍采用行式数据，并不具备典型列式向量化执行的全部特征。
 
-| 模型 | 特点 |
-| --- | --- |
-| **火山模型** | 每次 `Next()` 返回一条记录；接口简单、算子容易组合；但函数调用频繁，逐行处理开销较大 |
-| **物化模型** | 算子处理完全部输入后一次性输出结果；调用次数少，适合结果较小的查询；但中间结果占用内存，上层提前结束时容易浪费计算 |
-| **向量化模型** | 每次 `Next()` 返回一批记录；减少函数调用，并可结合列式布局与 SIMD，更适合 OLAP 等吞吐型负载；但实现复杂，小数据集上的优势不明显 |
+| 模型                         | 特点                                                                                                                                                                                                             |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **火山模型**           | 每次 `Next()` 返回一条记录；接口简单、算子容易组合；但函数调用频繁，逐行处理开销较大                                                                                                                           |
+| **物化模型**           | 算子处理完全部输入后一次性输出结果；调用次数少，适合结果较小的查询；但中间结果占用内存，上层提前结束时容易浪费计算                                                                                               |
+| **向量化模型**         | 每次 `Next()` 返回一批记录；减少函数调用，并可结合列式布局与 SIMD，更适合 OLAP 等吞吐型负载；但实现复杂，小数据集上的优势不明显                                                                                |
 | **BusTub：行式批处理** | 调用形式为 `Next(tuple_batch, rid_batch, batch_size)`；保留火山模型，仍由父算子逐层拉取结果；引入批处理，一次最多返回 `batch_size` 条记录；与典型向量化的区别在于批次内部仍是行式 Tuple，没有列式布局与 SIMD |
 
 图 2 三种查询执行模型及 BusTub 的实现形态
@@ -72,16 +71,16 @@ BusTub 当前的实现更接近"行式批处理"：`Next(tuple_batch, rid_batch,
 
 执行器并不直接管理数据页。页面读取、写入和淘汰仍由缓冲池负责，因此 Project 2 实现的 B+ 树索引可以直接作为 Project 3 的访问路径。
 
-| 组件 | 职责 |
-| --- | --- |
-| **ExecutorContext** | `GetCatalog()` 是执行器访问元数据的入口 |
-| **Catalog** | `table_names_`：表名 → 表 OID；`tables_`：表 OID → TableInfo；`index_names_`：表名 → 索引名 → 索引 OID；`indexes_`：索引 OID → IndexInfo |
-| **TableInfo** | `schema_` 描述列名、类型和顺序；`table_` 指向 TableHeap |
-| **TableHeap** | 页面链表，由 `first_page_id_` 和 `last_page_id_` 维护；TableIterator 顺序遍历记录并返回 Tuple 与 RID；记录操作包括插入元组、读取元组、更新 TupleMeta |
-| **TablePage** | TupleMeta 保存时间戳和 `is_deleted_` 删除标记；Tuple 数据按照 Schema 序列化存储 |
-| **Tuple 与 RID** | Tuple 是记录的实际内容；RID = page_id + slot_num，定位记录的物理位置；扫描输出中 `Tuple[i]` 必须对应 `RID[i]` |
-| **IndexInfo** | B+ 树索引，索引键 → RID；IndexScan 先查索引得到 RID，再回 TableHeap 读取 Tuple |
-| **BufferPoolManager** | 负责页面读取、写入、固定与淘汰；执行器不直接管理页面 |
+| 组件                        | 职责                                                                                                                                                     |
+| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **ExecutorContext**   | `GetCatalog()` 是执行器访问元数据的入口                                                                                                                |
+| **Catalog**           | `table_names_`：表名 → 表 OID；`tables_`：表 OID → TableInfo；`index_names_`：表名 → 索引名 → 索引 OID；`indexes_`：索引 OID → IndexInfo    |
+| **TableInfo**         | `schema_` 描述列名、类型和顺序；`table_` 指向 TableHeap                                                                                              |
+| **TableHeap**         | 页面链表，由 `first_page_id_` 和 `last_page_id_` 维护；TableIterator 顺序遍历记录并返回 Tuple 与 RID；记录操作包括插入元组、读取元组、更新 TupleMeta |
+| **TablePage**         | TupleMeta 保存时间戳和 `is_deleted_` 删除标记；Tuple 数据按照 Schema 序列化存储                                                                        |
+| **Tuple 与 RID**      | Tuple 是记录的实际内容；RID = page_id + slot_num，定位记录的物理位置；扫描输出中 `Tuple[i]` 必须对应 `RID[i]`                                        |
+| **IndexInfo**         | B+ 树索引，索引键 → RID；IndexScan 先查索引得到 RID，再回 TableHeap 读取 Tuple                                                                          |
+| **BufferPoolManager** | 负责页面读取、写入、固定与淘汰；执行器不直接管理页面                                                                                                     |
 
 图 3 执行器与存储层的组织关系
 
@@ -112,15 +111,15 @@ BusTub 当前的实现更接近"行式批处理"：`Next(tuple_batch, rid_batch,
 
 聚合结果的 Schema 由 Group By 列和聚合列组成。需要特别注意：当输入为空且没有 GROUP BY 时，仍然要输出一行结果，其中 `COUNT(*)` 为 0，其他聚合值为 NULL。
 
-| 环节 | 说明 |
-| --- | --- |
-| **输入记录** | 计算分组键：由 Group By 表达式生成 AggregateKey；计算聚合输入：由聚合表达式生成 AggregateValue |
-| **AggregateKey** | GroupByKeys：每个分组表达式对应一个 Value；NULL 比较时两侧都是 NULL 应视为同一个分组，普通比较返回 CmpNull，若不单独处理会把同组错误拆开 |
-| **AggregateValue** | `vector<Value>`，每个聚合表达式对应一个槽位；初始值 `COUNT(*)` 为 0，其他聚合值为 NULL |
-| **InsertCombine** | 新分组：先生成初始值，再合并当前记录；已有分组：更新 COUNT、SUM、MIN 或 MAX |
-| **AggregationExecutor** | `Init()`：Build 阶段读完孩子，将所有记录写入聚合哈希表；`Next()`：Output 阶段遍历哈希表，拼接分组列和聚合列 |
-| **输出 Schema** | Group By 列 + 聚合列 |
-| **空输入语义** | 有 GROUP BY：没有任何分组，因此输出 0 行；无 GROUP BY：仍输出 1 行，`COUNT(*) = 0`，其他聚合值为 NULL |
+| 环节                          | 说明                                                                                                                                     |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| **输入记录**            | 计算分组键：由 Group By 表达式生成 AggregateKey；计算聚合输入：由聚合表达式生成 AggregateValue                                           |
+| **AggregateKey**        | GroupByKeys：每个分组表达式对应一个 Value；NULL 比较时两侧都是 NULL 应视为同一个分组，普通比较返回 CmpNull，若不单独处理会把同组错误拆开 |
+| **AggregateValue**      | `vector<Value>`，每个聚合表达式对应一个槽位；初始值 `COUNT(*)` 为 0，其他聚合值为 NULL                                               |
+| **InsertCombine**       | 新分组：先生成初始值，再合并当前记录；已有分组：更新 COUNT、SUM、MIN 或 MAX                                                              |
+| **AggregationExecutor** | `Init()`：Build 阶段读完孩子，将所有记录写入聚合哈希表；`Next()`：Output 阶段遍历哈希表，拼接分组列和聚合列                          |
+| **输出 Schema**         | Group By 列 + 聚合列                                                                                                                     |
+| **空输入语义**          | 有 GROUP BY：没有任何分组，因此输出 0 行；无 GROUP BY：仍输出 1 行，`COUNT(*) = 0`，其他聚合值为 NULL                                  |
 
 图 5 AggregationExecutor 的哈希聚合流程与空输入语义
 
