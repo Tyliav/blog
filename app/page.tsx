@@ -40,7 +40,7 @@ export default function HomePage() {
           <div className="animate-rise max-w-3xl">
             <span className="inline-flex items-center gap-2 rounded-full border border-brand-line bg-surface/80 px-3.5 py-1.5 text-xs text-muted backdrop-blur">
               <BookOpen className="size-3.5 text-brand" />
-              非全日制硕士 · AI 系统 / Serverless / 性能工程方向
+              全日制硕士 · AI 系统 / Serverless / 性能工程/数据库方向
             </span>
 
             <h1 className="mt-6 text-4xl leading-[1.15] font-bold tracking-tight text-ink sm:text-5xl">

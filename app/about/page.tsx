@@ -20,10 +20,11 @@ export default function AboutPage() {
       <header className="animate-rise">
         <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">关于</h1>
         <p className="mt-4 text-base leading-relaxed text-muted">
-          你好，我是 {site.name}。一名非全日制硕士研究生，目前主要在
+          你好，我是 {site.name}。一名全日制硕士研究生，目前主要在
           <span className="text-ink">大模型系统</span>、
           <span className="text-ink">Serverless 架构</span>与
           <span className="text-ink">性能工程</span>
+          <span className="text-ink">数据库</span>
           方向上学习。这个博客记录我的学习路径与项目实践。
         </p>
       </header>
